@@ -7583,7 +7583,11 @@ set_display_strings_optional_buttons
 { [[ "${display_unmovable_status}" == "TRUE" ]] || [[ "${display_unmovable_status}" == "TEMP" ]]; } && ibm_notifier_array+=(-unmovable)
 { [[ "${display_hide_background_status}" == "TRUE" ]] || [[ "${display_hide_background_status}" == "TEMP" ]]; } && ibm_notifier_array+=(-background_panel translucent)
 { [[ "${display_silently_status}" == "TRUE" ]] || [[ "${display_silently_status}" == "TEMP" ]]; } && ibm_notifier_array+=(-silent)
-ibm_notifier_array+=(-position center -always_on_top -disable_quit)
+if [[ "${display_notifications_centered_status}" == "TRUE" ]]; then
+	ibm_notifier_array+=(-position center -always_on_top -disable_quit)
+else # The default interactive notification location.
+	ibm_notifier_array+=(-position top_right -always_on_top -disable_quit)
+fi
 [[ "${verbose_mode_option}" == "TRUE" ]] && log_super "Verbose Mode: Function ${FUNCNAME[0]}: ibm_notifier_array is:\n${ibm_notifier_array[*]}"
 
 # Kill any previous notifications so new ones can take its place.
